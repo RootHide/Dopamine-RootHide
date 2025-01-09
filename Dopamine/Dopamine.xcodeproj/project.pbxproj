@@ -607,7 +607,7 @@
 					"$(PROJECT_DIR)/../BaseBin/libjailbreak/",
 					"$(PROJECT_DIR)/../BaseBin/libfilecom/",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,
@@ -653,7 +653,7 @@
 					"$(PROJECT_DIR)/../BaseBin/libjailbreak/",
 					"$(PROJECT_DIR)/../BaseBin/libfilecom/",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				OTHER_LDFLAGS = (
 					"-framework",
 					IOKit,

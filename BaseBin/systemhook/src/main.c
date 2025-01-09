@@ -140,7 +140,7 @@ int posix_spawn_hook(pid_t *restrict pidp, const char *restrict path,
 		if(jbdswPatchExecAdd(path, should_resume)!=0) { //jdb fault?
 			// restore flags
 			posix_spawnattr_setflags(attrp, flags);
-			ret = 99;
+			ret = 199;
 			goto end;
 		}
 	}
@@ -160,7 +160,7 @@ int posix_spawn_hook(pid_t *restrict pidp, const char *restrict path,
 		if(suspend && jbdswPatchSpawn(pid, should_resume)!=0) //jdb fault? kill
 		{
 			kill(pid, SIGKILL);
-			ret = 98;
+			ret = 198;
 			goto end;
 		}
 	}

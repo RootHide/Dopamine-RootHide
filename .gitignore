@@ -11,3 +11,5 @@ DerivedData/
 Dopamine/Dopamine/bootstrap/tmp/
 .idea
 Tools/fastPathSign/.build_*
+BaseBin/upload.sh
+.vscode/settings.json

@@ -68,7 +68,7 @@ struct AboutView: View {
                     .padding(.horizontal, 32)
                 }
                 Button(action: {
-                    openURL(URL(string: "https://discord.gg/scqCkumAYp")!)
+                    openURL(URL(string: "https://discord.gg/ZvY2Yjw8GA")!)
                 }) {
                     HStack {
                         Spacer()

@@ -15,6 +15,8 @@
 #include "crashreporter.h"
 #import "../systemhook/src/common.h"
 
+bool gFirstLoad = false;
+
 int gLaunchdImageIndex = -1;
 
 char HOOK_DYLIB_PATH[PATH_MAX] = {0}; //"/usr/lib/systemhook.dylib"
@@ -103,6 +105,8 @@ __attribute__((constructor)) static void initializer(void)
 		JBLogDebug("jbdInitPPLRW=%d", ret);
 		int ret2 = recoverPACPrimitives();
 		JBLogDebug("jbdInitPPLRW=%d", ret2);
+		
+		gFirstLoad = true;
 	}
 
 	for (int i = 0; i < _dyld_image_count(); i++) {

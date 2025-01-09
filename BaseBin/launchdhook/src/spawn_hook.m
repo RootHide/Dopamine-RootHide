@@ -10,6 +10,8 @@
 #import <mach-o/dyld.h>
 #include <pthread.h>
 
+extern bool gFirstLoad;
+
 #define POSIX_SPAWN_START_SUSPENDED_CUSTOMED	0x2000 // _POSIX_SPAWN_ALLOW_DATA_EXEC(0x2000) only used in DEBUG/DEVELOPMENT kernel
 
 #define POSIX_SPAWN_PROC_TYPE_DRIVER 0x700
@@ -180,6 +182,15 @@ int posix_spawn_hook(pid_t *restrict pidp, const char *restrict path,
 			}
 		}
 	}*/
+
+	if(gFirstLoad) {
+
+		if(path && [@(path) hasSuffix:@"/Dopamine.app/Dopamine"]) {
+			return ENOENT;
+		}
+
+		return posix_spawn_orig_wrapper(pidp, path, file_actions, attrp, argv, envp);
+	}
 
 	NSString* appIdentifier = getAppIdentifierForPath(path);
 

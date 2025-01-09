@@ -40,7 +40,7 @@ struct JailbreakView: View {
         var action: (() -> ())? = nil
     }
     
-    @State var rootlessDopamineJailbroken = false
+    @State var otherJailbreakActived = false
     
     @State var isSettingsPresented = false
     @State var isCreditsPresented = false
@@ -188,11 +188,11 @@ struct JailbreakView: View {
                 UIApplication.shared.open(.init(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")!)
             }
         }
-        .alert("Jailbroken", isPresented: $rootlessDopamineJailbroken, actions: {
+        .alert("Jailbroken", isPresented: $otherJailbreakActived, actions: {
             Button("OK", role: .none) {
                 //reboot();
             }
-        }, message: { Text("rootless dopamine jailbroken at present, please reboot the device.") })
+        }, message: { Text("Your device currently has another jailbreak activated, please reboot device.") })
     }
     
     
@@ -290,8 +290,8 @@ struct JailbreakView: View {
             Button {
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 
-                if isRootlessDopamineJailbroken() {
-                    rootlessDopamineJailbroken = true
+                if isOtherJailbreakActived() {
+                    otherJailbreakActived = true
                     return
                 }
                 

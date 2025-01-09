@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <sandbox.h>
 #include <sys/mount.h>
 #include "common.h"
+
+enum sandbox_filter_type { SANDBOX_FILTER_NONE };
+extern const enum sandbox_filter_type SANDBOX_CHECK_NO_REPORT;
+extern int sandbox_check(pid_t pid, const char *operation, enum sandbox_filter_type type, ...);
 
 #define APP_PATH_PREFIX "/private/var/containers/Bundle/Application/"
 
@@ -31,6 +34,27 @@ char* getAppUUIDOffset(const char* path)
 	return strdup(rp);
 }
 
+bool hasTrollstoreMarker(const char* uuidpath)
+{
+	char* p1=NULL;
+	asprintf(&p1, "%s/_TrollStore", uuidpath);
+
+	int trollapp = access(p1, F_OK);
+	if(trollapp != 0) 
+	{
+		free((void*)p1);
+		asprintf(&p1, "%s/_TrollStoreLite", uuidpath);
+		trollapp = access(p1, F_OK);
+	}
+
+	free((void*)p1);
+
+	if(trollapp==0) 
+		return true;
+
+	return false;
+}
+
 bool isJailbreakPath(const char* path)
 {
     if(!path) return false;
@@ -45,15 +69,11 @@ bool isJailbreakPath(const char* path)
 	char* p1 = getAppUUIDOffset(path);
 	if(!p1) return true; //reject by default
 
-	char* p2=NULL;
-	asprintf(&p2, "%s/_TrollStore", p1);
-
-	int trollapp = access(p2, F_OK);
+	bool trollapp = hasTrollstoreMarker(p1);
 
 	free((void*)p1);
-	free((void*)p2);
 
-	if(trollapp==0) 
+	if(trollapp) 
 		return true;
 
     return false;
@@ -66,15 +86,11 @@ bool isNormalAppPath(const char* path)
 	char* p1 = getAppUUIDOffset(path);
 	if(!p1) return false; //allow by default
 
-	char* p2=NULL;
-	asprintf(&p2, "%s/_TrollStore", p1);
-
-	int trollapp = access(p2, F_OK);
+	bool trollapp = hasTrollstoreMarker(p1);
 
 	free((void*)p1);
-	free((void*)p2);
 
-	if(trollapp==0) return false;
+	if(trollapp) return false;
 
     return true;
 }
